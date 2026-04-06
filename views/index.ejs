@@ -1,0 +1,33 @@
+<%- include('partials/header.ejs') %>
+    <main>
+        <section class="hero-section text-center">
+            <div class="container">
+                <h1 class="display-4 fw-bold">The Leagues</h1>
+                <p class="lead">Esplora le statistiche e le classifiche dei migliori campionati d'Europa.</p>
+                <span class="badge rounded-pill bg-light text-dark px-3 py-2">Stagione Corrente: 2025/26</span>
+            </div>
+        </section>
+
+        <div class="container mb-5">
+            <form action="/comp" method="post" class="standing-grid m-0">
+                <% for (let i = 0; i < locals.main.competitions.length; i++) { %>
+                    <button type="submit" 
+                            name="competition" 
+                            value="<%= JSON.stringify({ code: locals.main.competitions[i].code, startDate: locals.main.competitions[i].currentSeason.startDate, name: locals.main.competitions[i].name }) %>"
+                            class="comp-card shadow-sm"> <div class="comp-emblem-container">
+                            <% if (locals.main.competitions[i].emblem) { %>
+                                <img src="<%= locals.main.competitions[i].emblem %>" alt="logo" class="comp-emblem">
+                            <% } else { %>
+                                <div class="comp-icon-placeholder">⚽</div>
+                            <% } %>
+                        </div>
+                        
+                        <h2 class="comp-name"><%= locals.main.competitions[i].name %></h2>
+                        <p class="comp-date">Inizio: <%= locals.main.competitions[i].currentSeason.startDate %></p>
+                    </button>
+                <% } %>
+            </form>
+        </div>
+    </main>
+
+    <%- include('partials/footer.ejs') %>

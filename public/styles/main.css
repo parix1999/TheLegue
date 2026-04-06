@@ -1,0 +1,147 @@
+/* Hero Section (Mantenuta e raffinata) */
+.hero-section {
+  background: linear-gradient(135deg, #1a237e 0%, #0d47a1 100%);
+  color: white;
+  padding: 5rem 0; /* Aumentato padding */
+  margin-bottom: 4rem;
+  border-radius: 0 0 20px 20px; /* Angoli arrotondati in basso */
+}
+.hero-section .navbar-brand {
+  font-weight: 800;
+  font-size: 1.5rem;
+}
+
+/* Griglia e Card (Miglioramento Design) */
+.standing-grid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(280px, 1fr)
+  ); /* Responsive grid */
+  gap: 2rem;
+  padding: 0 1rem;
+}
+
+/* Card delle competizioni (Richieste 1 & 2: Rimuovere cornice, Aggiungere ombra morbida) */
+.comp-card {
+  background-color: #fbfbfb; /* Sfondo leggermente colorato per far risaltare il logo */
+  border: none; /* RIMOZIONE CORNICE NERA */
+  border-radius: 12px; /* Angoli arrotondati */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* Ombra morbida predefinita */
+  overflow: hidden; /* Assicura che l'hover non fuoriesca */
+  transition:
+    transform 0.3s ease-in-out,
+    box-shadow 0.3s ease-in-out,
+    background-color 0.3s ease-in-out; /* Transizioni fluide */
+  height: 100%; /* Assicura che tutte le card abbiano la stessa altezza */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 1.5rem; /* Padding interno generoso */
+  text-decoration: none; /* Rimuove sottolineatura se trattato come link */
+  color: inherit; /* Mantiene il colore del testo */
+}
+
+/* Effetto Hover (Richiesta 2: Migliorare visibilità effetti visivi) */
+.comp-card:hover {
+  transform: translateY(-8px) scale(1.02); /* Elevazione e ingrandimento visibile */
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1); /* Ombra più profonda e ampia */
+  background-color: #ffffff; /* Sfondo che si schiarisce */
+}
+
+/* Dettagli interni card */
+.comp-emblem-container {
+  width: 100px;
+  height: 100px;
+  margin-bottom: 1.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.comp-emblem {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+.comp-icon-placeholder {
+  font-size: 3.5rem;
+  color: #1a237e;
+}
+.comp-name {
+  font-weight: 700;
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+  color: #1a237e;
+}
+.comp-date {
+  color: #777;
+  font-size: 0.9rem;
+}
+
+/* COMPETITION */
+:root {
+  --bs-table-hover-bg: rgba(0, 0, 0, 0.04);
+}
+/* Contenitore e Tabella */
+.standing-card {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: none;
+}
+
+.standing-card .table thead {
+  background-color: #1a237e;
+  /* Blu profondo per l'intestazione */
+  color: white;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Allineamento colonne */
+.rank-col {
+  width: 40px;
+  text-align: center;
+  font-weight: bold;
+  color: #555;
+}
+
+.team-col {
+  font-weight: 600;
+  text-align: left;
+}
+
+.points-col {
+  font-weight: 800;
+}
+
+.stat-col {
+  text-align: center;
+  width: 60px;
+}
+
+/* Dimensione e allineamento loghi (Richiesta 1) */
+.team-logo-small {
+  width: 32px;
+  /* Molto più piccolo */
+  height: auto;
+  max-height: 32px;
+  margin-right: 12px;
+  object-fit: contain;
+  /* Mantiene le proporzioni */
+  vertical-align: middle;
+}
+
+/* Evidenziazione Zona Retrocessione (Richiesta 2) */
+.relegation-row-bg {
+  background-color: #f8d7da !important;
+  /* Un rosso chiaro delicato, da Bootstrap alert-danger */
+}
+
+/* Indicatori zone minimalisti (opzionale, per la Champions) */
+.zone-champions {
+  border-left: 4px solid #007bff;
+}
