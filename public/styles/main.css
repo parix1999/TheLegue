@@ -145,3 +145,62 @@
 .zone-champions {
   border-left: 4px solid #007bff;
 }
+
+/* ABOUT PAGE */
+
+/* .hero-section {
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("path/to/your/stadium-bg.jpg"); 
+  background-size: cover;
+  background-position: center;
+  color: white;
+  padding: 100px 0;
+  text-align: center;
+} */
+
+.navbar-brand img {
+  max-height: 100px;
+}
+.card-custom {
+  border: none;
+  border-radius: 15px;
+  transition: transform 0.3s;
+}
+.card-custom:hover {
+  transform: translateY(-5px);
+}
+
+
+/* Container del logo per gestire il posizionamento */
+.logo-container {
+    position: relative;
+    z-index: 1050; /* Sopra la navbar */
+    height: 0; /* Impedisce al container di allargare la navbar in altezza */
+    display: block;
+}
+
+/* Effetto sporgente del logo */
+.floating-logo {
+    height: 100px; /* Regola l'altezza a tuo piacimento */
+    width: auto;
+    position: absolute;
+    top: -20px; /* Sposta il logo verso l'alto rispetto alla navbar */
+    left: 0;
+    transition: transform 0.3s ease;
+}
+
+.floating-logo:hover {
+    transform: scale(1.1); /* Leggero zoom quando ci passi sopra */
+}
+
+/* Fix per Mobile: riduciamo il logo se lo schermo è piccolo */
+@media (max-width: 991.98px) {
+    .floating-logo {
+        height: 70px;
+        top: -10px;
+    }
+    .navbar-collapse {
+        margin-top: 40px; /* Evita che il menu mobile copra il logo */
+    }
+}

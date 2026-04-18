@@ -65,6 +65,10 @@ app.post("/comp", async (req, res) => {
 
 });
 
+app.get("/about", (req, res) => {
+  res.render("about.ejs");
+});
+
 app.listen(port, () => {
   console.log(`Server running on port: ${port}`);
 });
