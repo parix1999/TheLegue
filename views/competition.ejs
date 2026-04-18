@@ -1,8 +1,6 @@
 <%- include('partials/header.ejs') %>
 
 <main>
-    <% console.log(locals.standRow); %>
-    <% console.log(locals.standHeader); %>
   <div class="container py-5">
     <div class="row justify-content-center">
       <div class="col-xl-10">
@@ -25,73 +23,24 @@
                 </tr>
               </thead>
               <tbody>
-                <% locals.standRow.forEach(element => { %>
+                <% locals.standRow.table.forEach(element => { %>
                     <tr>
-                        <td class="rank-col">1</td>
+                        <td class="rank-col"><%= element.position %></td>
                             <td class="team-col d-flex align-items-center">
                                 <img
-                                src="<%=  %>"
+                                src="<%= element.team.crest %>"
                                 class="team-logo-small"
-                                alt="logo Inter"
-                                />
-                                <span class="team-name">element.table.name</span>
+                                alt="logo Team"
+                                />                              
+                                <span class="team-name"><%= element.team.shortName %></span>
                             </td>
-                        <td class="stat-col">25</td>
-                        <td class="stat-col">20</td>
-                        <td class="stat-col">3</td>
-                        <td class="stat-col">2</td>
-                        <td class="stat-col points-col text-primary">63</td>
+                        <td class="stat-col"><%= element.playedGames %></td>
+                        <td class="stat-col"><%= element.won %></td>
+                        <td class="stat-col"><%= element.draw %></td>
+                        <td class="stat-col"><%= element.lost %></td>
+                        <td class="stat-col points-col text-primary"><%= element.points %></td>
                     </tr>
-                <% }); %>
-                <tr>
-                  <td class="rank-col">8</td>
-                  <td class="team-col d-flex align-items-center">
-                    <img
-                      src="https://crests.football-data.org/110.png"
-                      class="team-logo-small"
-                      alt="logo Lazio"
-                    />
-                    <span class="team-name">Lazio</span>
-                  </td>
-                  <td class="stat-col">25</td>
-                  <td class="stat-col">12</td>
-                  <td class="stat-col">4</td>
-                  <td class="stat-col">9</td>
-                  <td class="stat-col points-col">40</td>
-                </tr>
-
-                <tr class="relegation-row-bg">
-                  <td class="rank-col">18</td>
-                  <td class="team-col d-flex align-items-center">
-                    <img
-                      src="https://crests.football-data.org/450.png"
-                      class="team-logo-small"
-                      alt="logo Verona"
-                    />
-                    <span class="team-name text-danger fw-bold">Verona</span>
-                  </td>
-                  <td class="stat-col">25</td>
-                  <td class="stat-col">4</td>
-                  <td class="stat-col">8</td>
-                  <td class="stat-col">13</td>
-                  <td class="stat-col points-col">20</td>
-                </tr>
-                <tr class="relegation-row-bg">
-                  <td class="rank-col">19</td>
-                  <td class="team-col d-flex align-items-center">
-                    <img
-                      src="https://crests.football-data.org/107.png"
-                      class="team-logo-small"
-                      alt="logo Cagliari"
-                    />
-                    <span class="team-name text-danger fw-bold">Cagliari</span>
-                  </td>
-                  <td class="stat-col">25</td>
-                  <td class="stat-col">4</td>
-                  <td class="stat-col">8</td>
-                  <td class="stat-col">13</td>
-                  <td class="stat-col points-col">20</td>
-                </tr>
+                <% }); %>                
               </tbody>
             </table>
           </div>

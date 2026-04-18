@@ -5,6 +5,7 @@ import bodyParser from "body-parser";
 
 const app = express();
 const port = 3000;
+const AuthToken = '79a282c9983b455bb083c96a8b3582f7';
 
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -17,7 +18,7 @@ app.get("/", async (req, res) => {
     config: {
       headers: {
         "Content-Type": "application/json",
-        "X-Auth-Token": "79a282c9983b455bb083c96a8b3582f7",
+        "X-Auth-Token": AuthToken,
       },
       params: { areas: "2077" },
     },
@@ -48,7 +49,7 @@ app.post("/comp", async (req, res) => {
     config: {
       headers: {
         "Content-Type": "application/json",
-        "X-Auth-Token": "79a282c9983b455bb083c96a8b3582f7",
+        "X-Auth-Token": AuthToken,
       },
       params: { season: year },
     },
@@ -56,8 +57,7 @@ app.post("/comp", async (req, res) => {
 
   try {
     const response = await axios.get(options.url + data.code + "/standings", options.config);
-    // console.log(response.data.standings);
-    res.render("competition.ejs", { standHeader: response.data, standRow: response.data.standings });
+    res.render("competition.ejs", { standHeader: response.data, standRow: response.data.standings[0] });
   } catch (error) {
     console.log(error.message);
     res.status(500).send("Errore nel recupero dati");
