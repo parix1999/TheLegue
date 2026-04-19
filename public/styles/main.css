@@ -295,7 +295,7 @@
 .match-row:hover {
     background-color: #fbfbfb;
     border-left: 4px solid #1a237e;
-    cursor: pointer;
+    /* cursor: pointer; */
 }
 
 /* Responsive: nomi squadre su mobile */

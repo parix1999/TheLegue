@@ -5,28 +5,24 @@
         <div class="col-12">
             <h2 class="fw-bold text-dark-blue mb-4">Panoramica Stagione</h2>
         </div>
-        
         <div class="col-md-3">
             <div class="card border-0 shadow-sm rounded-4 bg-dark-blue text-white p-3 text-center">
                 <small class="text-uppercase opacity-75">Partite Totali</small>
                 <h3 class="fw-bold mb-0"><%= locals.resultSet.count %></h3>
             </div>
         </div>
-
         <div class="col-md-3">
             <div class="card border-0 shadow-sm rounded-4 p-3 text-center border-start border-success border-5">
                 <small class="text-uppercase text-muted">Vinte</small>
                 <h3 class="fw-bold mb-0 text-success"><%= locals.resultSet.wins %></h3>
             </div>
         </div>
-
         <div class="col-md-3">
             <div class="card border-0 shadow-sm rounded-4 p-3 text-center border-start border-warning border-5">
                 <small class="text-uppercase text-muted">Pareggi</small>
                 <h3 class="fw-bold mb-0 text-warning"><%= locals.resultSet.draws %></h3>
             </div>
         </div>
-
         <div class="col-md-3">
             <div class="card border-0 shadow-sm rounded-4 p-3 text-center border-start border-danger border-5">
                 <small class="text-uppercase text-muted">Perse</small>
@@ -48,8 +44,12 @@
                 <% locals.matches.forEach(incontri => { %>
                     <div class="match-row d-flex align-items-center p-3 border-bottom">
                         
+                        <div class="matchday-col text-muted small fw-bold">
+                            G. <%= incontri.matchday %>
+                        </div>
+
                         <div class="col text-end d-flex align-items-center justify-content-end">
-                            <span class="fw-semibold me-3 d-none d-md-block"><%= incontri.homeTeam.name %></span>
+                            <span class="fw-semibold me-3 d-none d-md-block text-truncate"><%= incontri.homeTeam.name %></span>
                             <img src="<%= incontri.homeTeam.crest %>" alt="logo" class="team-logo-small">
                         </div>
 
@@ -65,7 +65,7 @@
 
                         <div class="col text-start d-flex align-items-center">
                             <img src="<%= incontri.awayTeam.crest %>" alt="logo" class="team-logo-small">
-                            <span class="fw-semibold ms-3 d-none d-md-block"><%= incontri.awayTeam.name %></span>
+                            <span class="fw-semibold ms-3 d-none d-md-block text-truncate"><%= incontri.awayTeam.name %></span>
                         </div>
 
                         <div class="col-3 col-md-2 text-end">
