@@ -80,7 +80,7 @@ app.post("/statdata", async (req, res) => {
       },
       params: { 
         season: req.body.year,
-        competitions: 'PL',
+        competitions: req.body.code,
         limit: 100 
       },
     },

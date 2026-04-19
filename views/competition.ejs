@@ -24,7 +24,8 @@
               </thead>
               <tbody>                
                 <% locals.standRow.table.forEach(element => { %>                   
-                  <tr onclick="submitForm('<%= element.team.id %>', '<%= locals.standHeader.filters.season %>')" style="cursor:pointer;">
+                  <tr onclick="submitForm('<%= element.team.id %>', '<%= locals.standHeader.filters.season %>', '<%= locals.standHeader.competition.code %>')" 
+                    style="cursor:pointer;">
                       <td class="rank-col"><%= element.position %></td>
                           <td class="team-col d-flex align-items-center">
                               <img
@@ -44,6 +45,7 @@
                   <form id="hiddenForm" action="/statdata" method="POST">
                     <input type="hidden" name="teamId" id="teamId">
                     <input type="hidden" name="year" id="year">
+                    <input type="hidden" name="code" id="code">
                   </form>                  
                 <% }); %>                
               </tbody>
@@ -65,10 +67,14 @@
     </div>
   </div>
 </main>
+
 <script>
-  function submitForm(teamId, year) {
+  //Send data to Back End
+  function submitForm(teamId, year, code) {
     document.getElementById('teamId').value = teamId;
     document.getElementById('year').value = year;
+    document.getElementById('code').value = code;
+
     document.getElementById('hiddenForm').submit();
   }
 </script>

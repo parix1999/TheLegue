@@ -1,26 +1,89 @@
-<%- include('partials/header') %> <div class="container my-5">
-    <p>calendario partite: <%= locals.resultSet.count %></p>
-    <p>giocate: <%= locals.resultSet.played %></p>
-    <p>partite rimanenti: <%= locals.resultSet.count - locals.resultSet.played %></p>
-    <p>vinte: <%= locals.resultSet.wins %></p>
-    <p>pareggigate: <%= locals.resultSet.draws %></p>
-    <p>perse: <%= locals.resultSet.losses %></p>
+<%- include('partials/header') %>
 
-    <hr>
-    
-    <% locals.matches.forEach(incontri => { %>
-        <p>home: <%= incontri.homeTeam.name %> vs away: <%= incontri.awayTeam.name %></p>
-        <img src="<%= incontri.homeTeam.crest %>" alt="home-logo"> <img src="<%= incontri.awayTeam.crest %>" alt="away-logo">
-        <p>punteggio a fine partita: <%= incontri.score.fullTime.home %> - <%= incontri.score.fullTime.away %></p>
+<div class="container my-5">
+    <div class="row g-3 mb-5">
+        <div class="col-12">
+            <h2 class="fw-bold text-dark-blue mb-4">Panoramica Stagione</h2>
+        </div>
         
-        <% if (incontri.score.winner === "HOME_TEAM") { %>
-            <p>esito: vincitore <%= incontri.homeTeam.name  %></p>            
-        <% } else if (incontri.score.winner === "AWAY_TEAM") { %>
-            <p>esito: vincitore <%= incontri.awayTeam.name %></p>
-        <% } else if (incontri.score.winner === null) { %>
-            <p>esito: Ancora da giocare</p>    
-        <% } else { %>
-            <p>esito: pareggio</p>
-        <% } %>    
-    <% }); %>
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm rounded-4 bg-dark-blue text-white p-3 text-center">
+                <small class="text-uppercase opacity-75">Partite Totali</small>
+                <h3 class="fw-bold mb-0"><%= locals.resultSet.count %></h3>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm rounded-4 p-3 text-center border-start border-success border-5">
+                <small class="text-uppercase text-muted">Vinte</small>
+                <h3 class="fw-bold mb-0 text-success"><%= locals.resultSet.wins %></h3>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm rounded-4 p-3 text-center border-start border-warning border-5">
+                <small class="text-uppercase text-muted">Pareggi</small>
+                <h3 class="fw-bold mb-0 text-warning"><%= locals.resultSet.draws %></h3>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm rounded-4 p-3 text-center border-start border-danger border-5">
+                <small class="text-uppercase text-muted">Perse</small>
+                <h3 class="fw-bold mb-0 text-danger"><%= locals.resultSet.losses %></h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h3 class="fw-bold text-dark-blue mb-0">Risultati e Calendario</h3>
+                <span class="badge bg-light text-dark border rounded-pill px-3">
+                    Giocate: <%= locals.resultSet.played %> / <%= locals.resultSet.count %>
+                </span>
+            </div>
+
+            <div class="shadow-sm rounded-4 bg-white overflow-hidden">
+                <% locals.matches.forEach(incontri => { %>
+                    <div class="match-row d-flex align-items-center p-3 border-bottom">
+                        
+                        <div class="col text-end d-flex align-items-center justify-content-end">
+                            <span class="fw-semibold me-3 d-none d-md-block"><%= incontri.homeTeam.name %></span>
+                            <img src="<%= incontri.homeTeam.crest %>" alt="logo" class="team-logo-small">
+                        </div>
+
+                        <div class="col-2 col-md-1 text-center">
+                            <div class="match-score-box py-1 px-2 rounded bg-light fw-bold">
+                                <% if (incontri.score.fullTime.home !== null) { %>
+                                    <%= incontri.score.fullTime.home %> - <%= incontri.score.fullTime.away %>
+                                <% } else { %>
+                                    <small class="text-muted">VS</small>
+                                <% } %>
+                            </div>
+                        </div>
+
+                        <div class="col text-start d-flex align-items-center">
+                            <img src="<%= incontri.awayTeam.crest %>" alt="logo" class="team-logo-small">
+                            <span class="fw-semibold ms-3 d-none d-md-block"><%= incontri.awayTeam.name %></span>
+                        </div>
+
+                        <div class="col-3 col-md-2 text-end">
+                            <% if (incontri.score.winner === "HOME_TEAM") { %>
+                                <span class="badge rounded-pill bg-success-soft text-success w-100">Vittoria Casa</span>
+                            <% } else if (incontri.score.winner === "AWAY_TEAM") { %>
+                                <span class="badge rounded-pill bg-info-soft text-info w-100">Vittoria Fuori</span>
+                            <% } else if (incontri.score.winner === "DRAW") { %>
+                                <span class="badge rounded-pill bg-secondary-soft text-secondary w-100">Pareggio</span>
+                            <% } else { %>
+                                <span class="badge rounded-pill bg-light text-muted border w-100">Da giocare</span>
+                            <% } %>
+                        </div>
+                    </div>
+                <% }); %>
+            </div>
+        </div>
+    </div>
+</div>
+
 <%- include('partials/footer') %>
