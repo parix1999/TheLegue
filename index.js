@@ -57,7 +57,7 @@ app.post("/comp", async (req, res) => {
 
   try {
     const response = await axios.get(options.url + data.code + "/standings", options.config);
-    res.render("competition.ejs", { standHeader: response.data, standRow: response.data.standings[0] });
+    res.render("standing.ejs", { standHeader: response.data, standRow: response.data.standings[0] });
   } catch (error) {
     console.log(error.message);
     res.status(500).send("Errore nel recupero dati");
