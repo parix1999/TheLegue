@@ -1,0 +1,26 @@
+<%- include('partials/header') %> <div class="container my-5">
+    <p>calendario partite: <%= locals.resultSet.count %></p>
+    <p>giocate: <%= locals.resultSet.played %></p>
+    <p>partite rimanenti: <%= locals.resultSet.count - locals.resultSet.played %></p>
+    <p>vinte: <%= locals.resultSet.wins %></p>
+    <p>pareggigate: <%= locals.resultSet.draws %></p>
+    <p>perse: <%= locals.resultSet.losses %></p>
+
+    <hr>
+    
+    <% locals.matches.forEach(incontri => { %>
+        <p>home: <%= incontri.homeTeam.name %> vs away: <%= incontri.awayTeam.name %></p>
+        <img src="<%= incontri.homeTeam.crest %>" alt="home-logo"> <img src="<%= incontri.awayTeam.crest %>" alt="away-logo">
+        <p>punteggio a fine partita: <%= incontri.score.fullTime.home %> - <%= incontri.score.fullTime.away %></p>
+        
+        <% if (incontri.score.winner === "HOME_TEAM") { %>
+            <p>esito: vincitore <%= incontri.homeTeam.name  %></p>            
+        <% } else if (incontri.score.winner === "AWAY_TEAM") { %>
+            <p>esito: vincitore <%= incontri.awayTeam.name %></p>
+        <% } else if (incontri.score.winner === null) { %>
+            <p>esito: Ancora da giocare</p>    
+        <% } else { %>
+            <p>esito: pareggio</p>
+        <% } %>    
+    <% }); %>
+<%- include('partials/footer') %>

@@ -69,6 +69,33 @@ app.get("/about", (req, res) => {
   res.render("about.ejs");
 });
 
+app.post("/statdata", async (req, res) => {
+  const options = {
+    method: "GET",
+    url: `http://api.football-data.org/v4/teams/${req.body.teamId}/matches`,
+    config: {
+      headers: {
+        "Content-Type": "application/json",
+        "X-Auth-Token": AuthToken,
+      },
+      params: { 
+        season: req.body.year,
+        competitions: 'PL',
+        limit: 100 
+      },
+    },
+  };
+
+  try {
+    const response = await axios.get(options.url, options.config);
+    res.render("statdata.ejs", { resultSet: response.data.resultSet, matches: response.data.matches });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send("Errore nel recupero dati");
+  }
+
+});
+
 app.listen(port, () => {
   console.log(`Server running on port: ${port}`);
 });

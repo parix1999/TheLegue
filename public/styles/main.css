@@ -204,3 +204,63 @@
         margin-top: 40px; /* Evita che il menu mobile copra il logo */
     }
 }
+
+/* statdata page */
+
+/* Colore Blu del tuo sito */
+.text-dark-blue {
+    color: #1a237e;
+}
+
+.bg-dark-blue {
+    background-color: #1a237e;
+}
+
+/* Pulsante Personalizzato */
+.btn-primary-custom {
+    background-color: #1a237e;
+    border-color: #1a237e;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.btn-primary-custom:hover {
+    background-color: #0d155a;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(26, 35, 126, 0.3);
+}
+
+/* Logo nella pagina team */
+.team-logo-large {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+}
+
+/* Stile righe match */
+.match-row {
+    transition: background-color 0.2s;
+}
+
+.match-row:hover {
+    background-color: #fbfbfb !important;
+}
+
+.match-score {
+    min-width: 60px;
+    text-align: center;
+    color: #1a237e;
+}
+
+.team-home, .team-away {
+    font-size: 1.05rem;
+}
+
+/* Modali e Card arrotondate */
+.border-none {
+    border: none;
+}
+
+.rounded-4 {
+    border-radius: 15px !important;
+}

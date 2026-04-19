@@ -22,24 +22,29 @@
                   <th class="stat-col points-col">PT</th>
                 </tr>
               </thead>
-              <tbody>
-                <% locals.standRow.table.forEach(element => { %>
-                    <tr>
-                        <td class="rank-col"><%= element.position %></td>
-                            <td class="team-col d-flex align-items-center">
-                                <img
-                                src="<%= element.team.crest %>"
-                                class="team-logo-small"
-                                alt="logo Team"
-                                />                              
-                                <span class="team-name"><%= element.team.shortName %></span>
-                            </td>
-                        <td class="stat-col"><%= element.playedGames %></td>
-                        <td class="stat-col"><%= element.won %></td>
-                        <td class="stat-col"><%= element.draw %></td>
-                        <td class="stat-col"><%= element.lost %></td>
-                        <td class="stat-col points-col text-primary"><%= element.points %></td>
-                    </tr>
+              <tbody>                
+                <% locals.standRow.table.forEach(element => { %>                   
+                  <tr onclick="submitForm('<%= element.team.id %>', '<%= locals.standHeader.filters.season %>')" style="cursor:pointer;">
+                      <td class="rank-col"><%= element.position %></td>
+                          <td class="team-col d-flex align-items-center">
+                              <img
+                              src="<%= element.team.crest %>"
+                              class="team-logo-small"
+                              alt="logo Team"
+                              />                              
+                              <span class="team-name"><%= element.team.shortName %></span>
+                          </td>
+                      <td class="stat-col"><%= element.playedGames %></td>
+                      <td class="stat-col"><%= element.won %></td>
+                      <td class="stat-col"><%= element.draw %></td>
+                      <td class="stat-col"><%= element.lost %></td>
+                      <td class="stat-col points-col text-primary"><%= element.points %></td>
+                  </tr> 
+                  <!-- form nascosto -->
+                  <form id="hiddenForm" action="/statdata" method="POST">
+                    <input type="hidden" name="teamId" id="teamId">
+                    <input type="hidden" name="year" id="year">
+                  </form>                  
                 <% }); %>                
               </tbody>
             </table>
@@ -60,5 +65,11 @@
     </div>
   </div>
 </main>
-
+<script>
+  function submitForm(teamId, year) {
+    document.getElementById('teamId').value = teamId;
+    document.getElementById('year').value = year;
+    document.getElementById('hiddenForm').submit();
+  }
+</script>
 <%- include('partials/footer.ejs') %>
