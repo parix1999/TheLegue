@@ -1,81 +1,118 @@
+<!-- ----------------------------------------------------------------- -->
+<!-- PAGINA CON CLASSIFICA DEL CAMPIONATO SCELTO                       -->
+<!--                            02.08.26                               -->
+<!-- ----------------------------------------------------------------- -->
+
 <%- include('partials/header.ejs') %>
 
-<main>
-  <div class="container py-5">
-    <div class="row justify-content-center">
-      <div class="col-xl-10">
-        <p class="text-center text-muted mb-1 fs-6">
-          Competition: <span class="fw-semibold"><%= locals.standHeader.competition.name %></span>
-        </p>
+  <main>
+    <div class="container py-5">
+      <div class="row justify-content-center">
+        <div class="col-xl-10">
 
-        <div class="card standing-card">
-          <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0">
-              <thead>
-                <tr>
-                  <th class="rank-col">#</th>
-                  <th class="team-col">Squadra</th>
-                  <th class="stat-col">PG</th>
-                  <th class="stat-col">V</th>
-                  <th class="stat-col">N</th>
-                  <th class="stat-col">P</th>
-                  <th class="stat-col points-col">PT</th>
-                </tr>
-              </thead>
-              <tbody>                
-                <% locals.standRow.table.forEach(element => { %>                   
-                  <tr onclick="submitForm('<%= element.team.id %>', '<%= locals.standHeader.filters.season %>', '<%= locals.standHeader.competition.code %>')" 
-                    style="cursor:pointer;">
-                      <td class="rank-col"><%= element.position %></td>
-                          <td class="team-col d-flex align-items-center">
-                              <img
-                              src="<%= element.team.crest %>"
-                              class="team-logo-small"
-                              alt="logo Team"
-                              />                              
-                              <span class="team-name"><%= element.team.shortName %></span>
-                          </td>
-                      <td class="stat-col"><%= element.playedGames %></td>
-                      <td class="stat-col"><%= element.won %></td>
-                      <td class="stat-col"><%= element.draw %></td>
-                      <td class="stat-col"><%= element.lost %></td>
-                      <td class="stat-col points-col text-primary"><%= element.points %></td>
-                  </tr> 
-                  <!-- form nascosto -->
-                  <form id="hiddenForm" action="/statdata" method="POST">
-                    <input type="hidden" name="teamId" id="teamId">
-                    <input type="hidden" name="year" id="year">
-                    <input type="hidden" name="code" id="code">
-                  </form>                  
-                <% }); %>                
-              </tbody>
-            </table>
+          <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4 gap-3">
+            <div>
+              <p class="text-muted mb-0 fs-6">
+                Competition: <span class="fw-semibold text-dark">
+                  <%= locals.standHeader.competition.name %>
+                </span>
+              </p>
+              <p class="text-muted mb-0 fs-6">
+                Stagione: <span class="fw-semibold text-dark">
+                  <%= locals.seasonSelected%>
+                </span>
+              </p>
+              <small class="text-primary-custom fw-medium">
+                <i class="bi bi-info-circle-fill me-1"></i> Clicca su una riga per vedere i match della squadra
+              </small>
+            </div>
+
+            <form action="/teams" method="post">
+              <button class="btn btn-outline-primary-custom rounded-pill px-4" type="submit" name="competition"
+                value="<%= locals.standHeader.competition.code %>">
+                Tutte le Squadre
+              </button>
+            </form>
           </div>
-        </div>
 
-        <div class="mt-4 d-flex gap-3 justify-content-center small text-muted">
-          <span
-            ><span class="badge bg-primary rounded-pill">&nbsp;</span> Champions
-            League</span
-          >
-          <span
-            ><span class="badge bg-danger rounded-pill">&nbsp;</span>
-            Retrocessione</span
-          >
+          <div class="card standing-card shadow-sm border-0">
+            <div class="table-responsive">
+              <table class="table table-hover align-middle mb-0">
+                <thead>
+                  <tr>
+                    <th class="rank-col">#</th>
+                    <th class="team-col">Squadra</th>
+                    <th class="stat-col">PG</th>
+                    <th class="stat-col d-none d-sm-table-cell">V</th>
+                    <th class="stat-col d-none d-sm-table-cell">N</th>
+                    <th class="stat-col d-none d-sm-table-cell">P</th>
+                    <th class="stat-col points-col">PT</th>
+                    <th class="text-end pe-3" style="width: 40px;"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% locals.standRow.table.forEach(element=> { %>
+                    <tr
+                      onclick="submitForm('<%= element.team.id %>', '<%= locals.standHeader.filters.season %>', '<%= locals.standHeader.competition.code %>')"
+                      class="clickable-row">
+                      <td class="rank-col">
+                        <%= element.position %>
+                      </td>
+                      <td class="team-col">
+                        <div class="d-flex align-items-center">
+                          <img src="<%= element.team.crest %>" class="team-logo-small me-3" alt="logo">
+                          <span class="team-name fw-semibold">
+                            <%= element.team.shortName %>
+                          </span>
+                        </div>
+                      </td>
+                      <td class="stat-col">
+                        <%= element.playedGames %>
+                      </td>
+                      <td class="stat-col d-none d-sm-table-cell">
+                        <%= element.won %>
+                      </td>
+                      <td class="stat-col d-none d-sm-table-cell">
+                        <%= element.draw %>
+                      </td>
+                      <td class="stat-col d-none d-sm-table-cell">
+                        <%= element.lost %>
+                      </td>
+                      <td class="stat-col points-col fw-bold text-dark-blue">
+                        <%= element.points %>
+                      </td>
+                      <td class="text-end pe-3">
+                        <i class="bi bi-chevron-right text-muted small"></i>
+                      </td>
+                    </tr>
+                    <% }); %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="mt-4 d-flex gap-3 justify-content-center small text-muted">
+            <span><span class="badge bg-primary rounded-pill">&nbsp;</span> Champions</span>
+            <span><span class="badge bg-danger rounded-pill">&nbsp;</span> Retrocessione</span>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</main>
+  </main>
 
-<script>
-  //Send data to Back End
-  function submitForm(teamId, year, code) {
-    document.getElementById('teamId').value = teamId;
-    document.getElementById('year').value = year;
-    document.getElementById('code').value = code;
+  <form id="hiddenForm" action="/statdata" method="POST" style="display:none;">
+    <input type="hidden" name="teamId" id="teamId">
+    <input type="hidden" name="year" id="year">
+    <input type="hidden" name="code" id="code">
+  </form>
 
-    document.getElementById('hiddenForm').submit();
-  }
-</script>
-<%- include('partials/footer.ejs') %>
+  <script>
+    function submitForm(teamId, year, code) {
+      document.getElementById('teamId').value = teamId;
+      document.getElementById('year').value = year;
+      document.getElementById('code').value = code;
+      document.getElementById('hiddenForm').submit();
+    }
+  </script>
+
+  <%- include('partials/footer.ejs') %>

@@ -305,3 +305,43 @@
         min-width: 50px;
     }
 }
+
+/* Pulsante Squadre Outline */
+.btn-outline-primary-custom {
+    color: #1a237e;
+    border: 2px solid #1a237e;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-primary-custom:hover {
+    background-color: #1a237e;
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* Feedback visivo riga cliccabile */
+.clickable-row {
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.clickable-row:hover {
+    background-color: rgba(26, 35, 126, 0.04) !important;
+}
+
+.clickable-row:hover .bi-chevron-right {
+    transform: translateX(3px);
+    color: #1a237e !important;
+}
+
+.text-primary-custom {
+    color: #1a237e;
+}
+
+/* Nascondere colonne meno importanti su schermi piccoli (PG e PT restano sempre) */
+@media (max-width: 576px) {
+    .stat-col.d-none.d-sm-table-cell {
+        display: none;
+    }
+}
