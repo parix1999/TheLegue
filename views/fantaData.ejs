@@ -62,7 +62,7 @@
                         </thead>
                         <tbody>
                             <% giocatori.forEach(g=> { %>
-                                <tr data-ruolo="<%= g.Ruolo %>" data-squadra="<%= g.Squadra %>">
+                                <tr data-ruolo="<%= g.Ruolo %>" data-squadra="<%= g.Squadra %>" data-trend="<%= g.Trend %>">
                                     <td><span class="badge bg-secondary">
                                             <%= g.Ruolo %>
                                         </span></td>
@@ -98,28 +98,33 @@
         const searchInput = document.getElementById('searchInput');
         const roleFilter = document.getElementById('roleFilter');
         const teamFilter = document.getElementById('teamFilter');
+        const trendFilter = document.getElementById('trendFilter');
         const rows = document.querySelectorAll('#playersTable tbody tr');
 
         function filterTable() {
             const search = searchInput.value.toLowerCase();
             const role = roleFilter.value;
             const team = teamFilter.value;
-
+            const trend = trendFilter.value;
+            
             rows.forEach(row => {
                 const name = row.children[1].textContent.toLowerCase();
                 const rowRole = row.getAttribute('data-ruolo');
                 const rowTeam = row.getAttribute('data-squadra');
+                const rowTrend = row.getAttribute('data-trend');
 
                 const matchesSearch = name.includes(search);
                 const matchesRole = !role || rowRole === role;
                 const matchesTeam = !team || rowTeam === team;
+                const matchesTrend = !trend || rowTrend === trend;
 
-                row.style.display = (matchesSearch && matchesRole && matchesTeam) ? '' : 'none';
+                row.style.display = (matchesSearch && matchesRole && matchesTeam && matchesTrend) ? '' : 'none';
             });
         }
 
         searchInput.addEventListener('input', filterTable);
         roleFilter.addEventListener('change', filterTable);
         teamFilter.addEventListener('change', filterTable);
+        trendFilter.addEventListener('change', filterTable);
     </script>
     <%- include('partials/footer.ejs') %>
