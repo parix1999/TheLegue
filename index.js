@@ -3,20 +3,25 @@ import express from "express";
 import ejs from "ejs";
 import axios from "axios";
 import bodyParser from "body-parser";
-import fs from 'node:fs';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 // -------------------------------------------------------------------------------------
 // GLOBAL DATA DECLARATION
 const app = express();
 const port = process.env.PORT || 3000;
-const AuthToken = '79a282c9983b455bb083c96a8b3582f7';
+const AuthToken = "79a282c9983b455bb083c96a8b3582f7";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 // -------------------------------------------------------------------------------------
 // JSON STATIC DATA GIOCATORI FANTA
-const jsonPath = path.join(__dirname, 'public', 'data', 'giocatori_finali.json');
-const giocatori = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
+const jsonPath = path.join(
+  __dirname,
+  "public",
+  "data",
+  "giocatori_finali.json",
+);
+const giocatori = JSON.parse(fs.readFileSync(jsonPath, "utf8"));
 // -------------------------------------------------------------------------------------
 // MIDDLEWARE FOR DATA
 app.use(express.static("public"));
@@ -50,19 +55,19 @@ app.post("/comp", async (req, res) => {
   const transcodeSeason = [
     {
       year: "2026",
-      code: "2026/27"
+      code: "2026/27",
     },
     {
       year: "2025",
-      code: "2025/26"
+      code: "2025/26",
     },
     {
       year: "2024",
-      code: "2024/25"
+      code: "2024/25",
     },
     {
       year: "2023",
-      code: "2023/24"
+      code: "2023/24",
     },
   ];
   const data = JSON.parse(req.body.competition);
@@ -84,14 +89,19 @@ app.post("/comp", async (req, res) => {
     },
   };
 
-  const result = transcodeSeason.find(({ year }) => year === String(seasonYear));
+  const result = transcodeSeason.find(
+    ({ year }) => year === String(seasonYear),
+  );
 
   try {
-    const response = await axios.get(options.url + data.code + "/standings", options.config);
+    const response = await axios.get(
+      options.url + data.code + "/standings",
+      options.config,
+    );
     res.render("standing.ejs", {
       standHeader: response.data,
       standRow: response.data.standings[0],
-      seasonSelected: result.code
+      seasonSelected: result.code,
     });
   } catch (error) {
     console.log(error.message);
@@ -115,19 +125,21 @@ app.post("/statdata", async (req, res) => {
       params: {
         season: req.body.year,
         competitions: req.body.code,
-        limit: 100
+        limit: 100,
       },
     },
   };
 
   try {
     const response = await axios.get(options.url, options.config);
-    res.render("statdata.ejs", { resultSet: response.data.resultSet, matches: response.data.matches });
+    res.render("statdata.ejs", {
+      resultSet: response.data.resultSet,
+      matches: response.data.matches,
+    });
   } catch (error) {
     console.log(error.message);
     res.status(500).send("Errore nel recupero dati");
   }
-
 });
 
 app.post("/teams", (req, res) => {
@@ -136,17 +148,31 @@ app.post("/teams", (req, res) => {
 });
 
 app.get("/converciano", (req, res) => {
-
-  const squadre = new Set(giocatori.map(giocatore => giocatore.Squadra));
-  const ruoli = new Set(giocatori.map(giocatore => giocatore.Ruolo));
-  const trend = new Set(giocatori.map(giocatore => giocatore.Trend));
+  const squadre = new Set(giocatori.map((giocatore) => giocatore.Squadra));
+  const ruoli = new Set(giocatori.map((giocatore) => giocatore.Ruolo));
+  const trend = new Set(giocatori.map((giocatore) => giocatore.Trend));
 
   res.render("fantaData.ejs", {
     giocatori: giocatori,
     squadre: Array.from(squadre),
     ruoli: Array.from(ruoli),
-    trend: Array.from(trend)
+    trend: Array.from(trend),
   });
+});
+
+app.post("/statgiocatore", (req, res) => {
+
+  let playerData = giocatori.find(
+    (g) => g.id === req.body.idPlayer && g.Nome === req.body.namePlayer,
+  );
+
+  if (!playerData) {
+    res.status(500).send("Dati Giocatore non trovati");
+  } else {
+    res.render("dettagliogiocatore.ejs", {
+      playerData: playerData,
+    });
+  }
 });
 
 // -------------------------------------------------------------------------------------

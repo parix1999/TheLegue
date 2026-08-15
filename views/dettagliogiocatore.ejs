@@ -1,0 +1,220 @@
+<!-- ----------------------------------------------------------------- -->
+<!--                PAGINA CON GIOCATORE FANTA SCELTO                  -->
+<!--                            15.08.26                               -->
+<!-- ----------------------------------------------------------------- -->
+
+<%- include('partials/header.ejs') %>
+
+    <div class="container my-4 bg-light p-3 mt-5">
+
+        <!-- Tasto Torna Indietro -->
+        <div class="mb-3">
+            <a href="/converciano" class="btn btn-outline-secondary btn-sm">
+                <i class="bi bi-arrow-left me-1"></i> Torna alla lista
+            </a>
+        </div>
+
+        <!-- HEADER / HERO PLAYER -->
+        <div class="card stat-card mb-4 overflow-hidden">
+            <div class="card-body p-4">
+                <div class="row align-items-center g-4">
+
+                    <!-- Foto Giocatore -->
+                    <div class="col-auto text-center">
+                        <img src="<%= playerData.img %>" alt="<%= playerData.Nome %>"
+                            class="rounded-circle player-avatar shadow-sm">
+                    </div>
+
+                    <!-- Info Principali -->
+                    <div class="col">
+                        <div class="d-flex align-items-center gap-2 mb-1">
+                            <span class="badge bg-primary px-3 py-2 fs-6">
+                                <%= playerData.Ruolo %>
+                            </span>
+                            <span class="text-muted fw-bold">
+                                <%= playerData.Squadra %>
+                            </span>
+
+                            <!-- Indicatori Stato -->
+                            <% if (playerData.Infortunato) { %>
+                                <span class="badge bg-danger"><i
+                                        class="bi bi-cross-circle-fill me-1"></i>Infortunato</span>
+                                <% } %>
+                                    <% if (playerData['Nuovo acquisto']) { %>
+                                        <span class="badge bg-info text-dark">Nuovo Acquisto</span>
+                                        <% } %>
+                                            <% if (playerData['Consigliato prossima giornata']) { %>
+                                                <span class="badge bg-success"><i
+                                                        class="bi bi-hand-thumbs-up-fill me-1"></i>Consigliato Prassima
+                                                    Giornata</span>
+                                                <% } %>
+                        </div>
+
+                        <h1 class="h2 fw-bold text-uppercase mb-1">
+                            <%= playerData.Nome %>
+                                <% if (playerData.Trend==='UP' ) { %>
+                                    <i class="bi bi-arrow-up-right-circle-fill text-success fs-4 ms-1"
+                                        title="Trend In Crescita"></i>
+                                    <% } else if (playerData.Trend==='DOWN' ) { %>
+                                        <i class="bi bi-arrow-down-right-circle-fill text-danger fs-4 ms-1"
+                                            title="Trend In Calo"></i>
+                                        <% } %>
+                        </h1>
+
+                        <p class="text-muted small mb-2">
+                            <i class="bi bi-flag me-1"></i>
+                            <%= playerData.Nazionalità %> &bull;
+                                <i class="bi bi-calendar-event me-1"></i>
+                                <%= playerData['Data di Nascita'] %> &bull;
+                                    <%= playerData.Altezza.replace(/\t/g, ' ' ) %> &bull;
+                                        <%= playerData.Peso.replace(/\t/g, ' ' ) %>
+                        </p>
+
+                        <!-- Skills Badges -->
+                        <div class="d-flex flex-wrap gap-1 mt-2">
+                            <% (playerData.Skills || []).forEach(skill=> { %>
+                                <span class="badge bg-light text-dark border border-secondary-subtle">
+                                    <i class="bi bi-star-fill text-warning me-1"></i>
+                                    <%= skill %>
+                                </span>
+                                <% }) %>
+                        </div>
+                    </div>
+
+                    <!-- Punteggio e Fonte Esterna -->
+                    <div class="col-md-auto text-md-end border-start-md ps-md-4">
+                        <div class="d-flex align-items-center gap-3">
+                            <div>
+                                <div class="text-muted small text-uppercase font-monospace fw-bold">Punteggio</div>
+                                <div class="score-badge bg-primary text-white shadow-sm mt-1 mx-auto me-md-0">
+                                    <%= playerData.Punteggio %>
+                                </div>
+                            </div>
+                        </div>
+                        <% if (playerData.url) { %>
+                            <div class="mt-3">
+                                <a href="<%= playerData.url %>" target="_blank" rel="noopener noreferrer"
+                                    class="btn btn-sm btn-link text-decoration-none px-0">
+                                    Vedi su Fantacalciopedia <i class="bi bi-box-arrow-up-right"></i>
+                                </a>
+                            </div>
+                            <% } %>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- METRICHE E DETTAGLI -->
+        <div class="row g-4">
+
+            <!-- COLONNA SINISTRA: Fantamedie Storiche & Presenze -->
+            <div class="col-lg-6">
+                <div class="card stat-card h-100">
+                    <div class="card-header bg-white py-3">
+                        <h5 class="card-title fw-bold mb-0">
+                            <i class="bi bi-bar-chart-line-fill text-primary me-2"></i>Fantamedie e Presenze
+                        </h5>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
+                            <span class="fw-semibold">Presenze totali previste/giocate:</span>
+                            <span class="badge bg-secondary fs-6">
+                                <%= playerData.Presenze %> gare
+                            </span>
+                        </div>
+
+                        <p class="fw-semibold text-muted mb-2 small text-uppercase">Storico Fantamedie</p>
+                        <div class="list-group list-group-flush">
+                            <% if (playerData.Fantamedie) { %>
+                                <% Object.entries(playerData.Fantamedie).forEach(([stagione, media])=> { %>
+                                    <div class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                        <span>
+                                            <%= stagione %>
+                                        </span>
+                                        <span
+                                            class="fw-bold fs-5 <%= media >= 7.5 ? 'text-success' : (media >= 6.5 ? 'text-primary' : 'text-dark') %>">
+                                            <%= media ? Number(media).toFixed(2) : 'N/D' %>
+                                        </span>
+                                    </div>
+                                    <% }) %>
+                                        <% } %>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- COLONNA DESTRA: Valutazioni & Indici -->
+            <div class="col-lg-6">
+                <div class="card stat-card h-100">
+                    <div class="card-header bg-white py-3">
+                        <h5 class="card-title fw-bold mb-0">
+                            <i class="bi bi-sliders text-primary me-2"></i>Indici Asta e Affidabilità
+                        </h5>
+                    </div>
+                    <div class="card-body">
+
+                        <!-- Convenienza -->
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <span class="fw-semibold">Convenienza D'Asta</span>
+                                <span class="fw-bold text-primary fs-5">
+                                    <%= Number(playerData.Convenienza).toFixed(2) %>
+                                </span>
+                            </div>
+                            <div class="progress">
+                                <div id="bar-convenienza" class="progress-bar bg-primary" role="progressbar"
+                                    data-val="<%= Math.min(playerData.Convenienza * 2, 100) %>"></div>
+                            </div>
+                        </div>
+
+                        <!-- Buon Investimento -->
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <span class="fw-semibold">Buon Investimento</span>
+                                <span class="fw-bold text-success">
+                                    <%= playerData['Buon investimento'] %>%
+                                </span>
+                            </div>
+                            <div class="progress">
+                                <div id="bar-investimento" class="progress-bar bg-success" role="progressbar"
+                                    data-val="<%= playerData['Buon investimento'] %>"></div>
+                            </div>
+                        </div>
+
+                        <!-- Resistenza Infortuni -->
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <span class="fw-semibold">Resistenza Infortuni</span>
+                                <span class="fw-bold text-info">
+                                    <%= playerData['Resistenza infortuni'] %>%
+                                </span>
+                            </div>
+                            <div class="progress">
+                                <div id="bar-infortuni" class="progress-bar bg-info" role="progressbar"
+                                    data-val="<%= playerData['Resistenza infortuni'] %>"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Script Client Side per impostare le barre di avanzamento senza scatenare errori linter -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const bars = document.querySelectorAll('.progress-bar[data-val]');
+            bars.forEach(bar => {
+                const val = bar.getAttribute('data-val');
+                bar.style.width = val + '%';
+            });
+        });
+    </script>
+
+<%- include('partials/footer.ejs') %>

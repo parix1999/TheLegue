@@ -7,7 +7,7 @@
 
     <div class="container my-5">
         <div class="row justify-content-center">
-            <p>Dati estratti da FantaCalcioPedia: <b>Dati aggiornati al 11/08/2026</b></p>
+            <p>Dati estratti da FantaCalcioPedia: <b>Dati aggiornati al 15/08/2026</b></p>
             <!-- Filtri Client-Side -->
             <div class="row g-4 mb-4">
                 <div class="col-md-4">
@@ -57,12 +57,12 @@
                                 <th>Punteggio</th>
                                 <th>FM 25/26</th>
                                 <th>Convenienza</th>
-                                <th>Azione</th>
                             </tr>
                         </thead>
                         <tbody>
                             <% giocatori.forEach(g=> { %>
-                                <tr data-ruolo="<%= g.Ruolo %>" data-squadra="<%= g.Squadra %>" data-trend="<%= g.Trend %>">
+                                <tr data-ruolo="<%= g.Ruolo %>" data-squadra="<%= g.Squadra %>"
+                                    data-trend="<%= g.Trend %>" class="clickable-row" onclick="submitForm('<%= g.id %>', '<%= g.Nome %>')">
                                     <td><span class="badge bg-secondary">
                                             <%= g.Ruolo %>
                                         </span></td>
@@ -81,10 +81,6 @@
                                     <td>
                                         <%= Number(g.Convenienza).toFixed(1) %>
                                     </td>
-                                    <td>
-                                        <a href="/giocatori/<%= g.slug %>"
-                                            class="btn btn-sm btn-outline-primary">Scheda</a>
-                                    </td>
                                 </tr>
                                 <% }) %>
                         </tbody>
@@ -93,6 +89,12 @@
             </div>
         </div>
     </div>
+
+    <form id="hiddenForm" action="/statgiocatore" method="POST" style="display:none;">
+        <input type="hidden" name="idPlayer" id="idPlayer">
+        <input type="hidden" name="namePlayer" id="namePlayer">
+    </form>
+
 
     <script>
         const searchInput = document.getElementById('searchInput');
@@ -106,7 +108,7 @@
             const role = roleFilter.value;
             const team = teamFilter.value;
             const trend = trendFilter.value;
-            
+
             rows.forEach(row => {
                 const name = row.children[1].textContent.toLowerCase();
                 const rowRole = row.getAttribute('data-ruolo');
@@ -126,5 +128,14 @@
         roleFilter.addEventListener('change', filterTable);
         teamFilter.addEventListener('change', filterTable);
         trendFilter.addEventListener('change', filterTable);
+
+
+        function submitForm(id, nome,) {
+            document.getElementById('idPlayer').value = id;
+            document.getElementById('namePlayer').value = nome;
+            document.getElementById('hiddenForm').submit();
+        }
+
+
     </script>
-    <%- include('partials/footer.ejs') %>
+<%- include('partials/footer.ejs') %>
