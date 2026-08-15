@@ -421,3 +421,56 @@
 .progress {
   height: 8px;
 }
+
+/* Personalizzazioni UI Tabella */
+.player-row {
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.player-row:hover {
+  background-color: rgba(13, 110, 253, 0.05) !important;
+}
+
+.badge-role-POR {
+  background-color: #ffc107;
+  color: #000;
+}
+
+.badge-role-DIF {
+  background-color: #198754;
+  color: #fff;
+}
+
+.badge-role-CEN {
+  background-color: #0d6efd;
+  color: #fff;
+}
+
+.badge-role-ATT {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.table-custom th {
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #6c757d;
+  border-bottom: 2px solid #dee2e6;
+}
+
+/* Ottimizzazioni specifiche per Mobile */
+@media (max-width: 576px) {
+  .player-name {
+    font-size: 0.85rem !important;
+    /* Rimpicciolisce il nome su mobile */
+    line-height: 1.2;
+  }
+
+  .table-custom td,
+  .table-custom th {
+    padding-left: 0.4rem !important;
+    padding-right: 0.4rem !important;
+  }
+}
