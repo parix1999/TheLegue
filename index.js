@@ -1,15 +1,28 @@
+// NPM PACKAGES NODE_MODULES
 import express from "express";
 import ejs from "ejs";
 import axios from "axios";
 import bodyParser from "body-parser";
-
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+// -------------------------------------------------------------------------------------
+// GLOBAL DATA DECLARATION
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 const AuthToken = '79a282c9983b455bb083c96a8b3582f7';
-
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+// -------------------------------------------------------------------------------------
+// JSON STATIC DATA GIOCATORI FANTA
+const jsonPath = path.join(__dirname, 'public', 'data', 'giocatori_finali.json');
+const giocatori = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
+// -------------------------------------------------------------------------------------
+// MIDDLEWARE FOR DATA
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true })); // Middleware dati
-
+// -------------------------------------------------------------------------------------
+// SITE ROUTES BRANCHES
 app.get("/", async (req, res) => {
   const options = {
     method: "GET",
@@ -122,6 +135,23 @@ app.post("/teams", (req, res) => {
   res.render("teams.ejs");
 });
 
+app.get("/converciano", (req, res) => {
+
+  const squadre = new Set(giocatori.map(giocatore => giocatore.Squadra));
+  const ruoli = new Set(giocatori.map(giocatore => giocatore.Ruolo));
+  const trend = new Set(giocatori.map(giocatore => giocatore.Trend));
+
+  res.render("fantaData.ejs", {
+    giocatori: giocatori,
+    squadre: Array.from(squadre),
+    ruoli: Array.from(ruoli),
+    trend: Array.from(trend)
+  });
+});
+
+// -------------------------------------------------------------------------------------
+
+// PORT SITE
 app.listen(port, () => {
   console.log(`Server running on port: ${port}`);
 });
