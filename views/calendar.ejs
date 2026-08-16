@@ -1,0 +1,52 @@
+<!-- ----------------------------------------------------------------- -->
+<!-- PAGINA CON CALENDARIO DEL CAMPIONATO SCELTO                       -->
+<!--                            16.08.26                               -->
+<!-- ----------------------------------------------------------------- -->
+<%- include('partials/header.ejs') %>
+
+    <main>
+        <div class="container pt-5 my-3 my-md-4">
+            <p>
+                Campionato: <%= locals.competition.name %>, stagione: <%= locals.seasoncode.season %>
+            </p>
+            <img src="<%= locals.competition.emblem %>" class="team-logo-small me-3" alt="logo">
+
+            <p>
+                partite: <%= locals.resultSet.count %>
+            </p>
+            <p>
+                data inizio campionato: <%= locals.resultSet.first %>
+            </p>
+            <p>
+                data fine campionato: <%= locals.resultSet.last %>
+            </p>
+            <p>
+                partite giocate: <%= locals.resultSet.played %>
+            </p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>hometeam</th>
+                        <th>awayteam</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% locals.matches.forEach(match=> { %>
+                        <tr>
+                            <td>
+                                <%= match.homeTeam.shortName %>
+                            </td>
+                            <td>vs</td>
+                            <td>
+                                <%= match.awayTeam.shortName %>
+                            </td>
+                        </tr>
+
+                        <% }); %>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+<%- include('partials/footer.ejs') %>

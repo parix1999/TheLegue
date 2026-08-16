@@ -89,7 +89,7 @@ app.post("/comp", async (req, res) => {
     },
   };
 
-  const result = transcodeSeason.find(
+  const seasonYears = transcodeSeason.find(
     ({ year }) => year === String(seasonYear),
   );
 
@@ -101,7 +101,8 @@ app.post("/comp", async (req, res) => {
     res.render("standing.ejs", {
       standHeader: response.data,
       standRow: response.data.standings[0],
-      seasonSelected: result.code,
+      seasonSelected: seasonYears.code,
+      seasonYear: seasonYear,
     });
   } catch (error) {
     console.log(error.message);
@@ -145,6 +146,37 @@ app.post("/statdata", async (req, res) => {
 app.post("/teams", (req, res) => {
   console.log(req.body);
   res.render("teams.ejs");
+});
+
+app.post("/calendar", async (req, res) => {
+
+  const options = {
+    method: "GET",
+    url: `http://api.football-data.org/v4/competitions/${req.body.compId}/matches`,
+    config: {
+      headers: {
+        "Content-Type": "application/json",
+        "X-Auth-Token": AuthToken,
+      },
+      params: {
+        season: req.body.code
+      },
+    },
+  };
+
+  try {
+    const response = await axios.get(options.url, options.config);
+    res.render("calendar.ejs", {
+      matches: response.data.matches,
+      competition: response.data.competition,
+      resultSet: response.data.resultSet,
+      seasoncode: response.data.filters
+    });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send("Errore nel recupero dati");
+  }
+
 });
 
 app.get("/converciano", (req, res) => {

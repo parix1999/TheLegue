@@ -19,7 +19,7 @@
               </p>
               <p class="text-muted mb-0 fs-6">
                 Stagione: <span class="fw-semibold text-dark">
-                  <%= locals.seasonSelected%>
+                  <%= locals.seasonSelected%>                                    
                 </span>
               </p>
               <small class="text-primary-custom fw-medium">
@@ -35,7 +35,9 @@
             </form>
             <!-- TODO  -->
             <form action="/calendar" method="post"> 
-              <button class="btn btn-outline-primary-custom rounded-pill px-4" type="submit" name="calendar">
+              <input type="hidden" name="code" id="code" value="<%= locals.seasonYear %>">
+              <button class="btn btn-outline-primary-custom rounded-pill px-4" type="submit" name="compId"
+                value="<%= locals.standHeader.competition.id %>">
                 Calendario
               </button>
             </form>
