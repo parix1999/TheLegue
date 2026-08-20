@@ -195,7 +195,6 @@ app.all("/statdata", async (req, res) => {
 
 // TO DOOO 
 app.post("/teams", (req, res) => {
-  console.log(req.body);
   res.render("teams.ejs");
 });
 

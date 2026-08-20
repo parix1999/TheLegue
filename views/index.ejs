@@ -22,7 +22,6 @@
 
         <div class="container mb-5">
             <form id="comp-form" action="/comp" method="post" class="standing-grid m-0">
-                <% console.log(locals.filteredLegues) %>
                 <% for (let i=0; i < locals.filteredLegues.length; i++) { %>
                     <button type="submit" name="competition"
                         value="<%= JSON.stringify({ code: locals.filteredLegues[i].code, startDate: locals.filteredLegues[i].currentSeason.startDate, name: locals.filteredLegues[i].name }) %>"
