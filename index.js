@@ -45,7 +45,6 @@ app.use(
 
 // -------------------------------------------------------------------------------------
 // SITE ROUTES BRANCHES
-
 app.get("/", async (req, res) => {
   const options = {
     method: "GET",
@@ -61,7 +60,14 @@ app.get("/", async (req, res) => {
 
   try {
     const response = await axios.get(options.url, options.config);
-    res.render("index.ejs", { main: response.data });
+ 
+    const idChapions = 2001;
+    var filteredLegues = response.data.competitions.filter((item) => item.id !== idChapions);
+   
+    const idEuropeo = 2018;
+    var filteredLegues = filteredLegues.filter((item) => item.id !== idEuropeo);
+
+    res.render("index.ejs", { filteredLegues: filteredLegues });
   } catch (error) {
     console.log(error.message);
     res.status(500).send("Errore nel recupero dati");

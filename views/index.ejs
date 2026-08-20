@@ -22,22 +22,23 @@
 
         <div class="container mb-5">
             <form id="comp-form" action="/comp" method="post" class="standing-grid m-0">
-                <% for (let i=0; i < locals.main.competitions.length; i++) { %>
+                <% console.log(locals.filteredLegues) %>
+                <% for (let i=0; i < locals.filteredLegues.length; i++) { %>
                     <button type="submit" name="competition"
-                        value="<%= JSON.stringify({ code: locals.main.competitions[i].code, startDate: locals.main.competitions[i].currentSeason.startDate, name: locals.main.competitions[i].name }) %>"
+                        value="<%= JSON.stringify({ code: locals.filteredLegues[i].code, startDate: locals.filteredLegues[i].currentSeason.startDate, name: locals.filteredLegues[i].name }) %>"
                         class="comp-card shadow-sm">
                         <div class="comp-emblem-container">
-                            <% if (locals.main.competitions[i].emblem) { %>
-                                <img src="<%= locals.main.competitions[i].emblem %>" alt="logo" class="comp-emblem">
+                            <% if (locals.filteredLegues[i].emblem) { %>
+                                <img src="<%= locals.filteredLegues[i].emblem %>" alt="logo" class="comp-emblem">
                                 <% } else { %>
                                     <div class="comp-icon-placeholder">⚽</div>
                                     <% } %>
                         </div>
 
                         <h2 class="comp-name">
-                            <%= locals.main.competitions[i].name %>
+                            <%= locals.filteredLegues[i].name %>
                         </h2>
-                        <p class="comp-date">Inizio: <%= locals.main.competitions[i].currentSeason.startDate %>
+                        <p class="comp-date">Inizio: <%= locals.filteredLegues[i].currentSeason.startDate %>
                         </p>
                     </button>
                     <% } %>
