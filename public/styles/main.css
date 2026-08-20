@@ -460,6 +460,10 @@
   border-bottom: 2px solid #dee2e6;
 }
 
+.bgmaintanance {
+  width: 100%;
+}
+
 /* Ottimizzazioni specifiche per Mobile */
 @media (max-width: 576px) {
   .player-name {
@@ -473,4 +477,5 @@
     padding-left: 0.4rem !important;
     padding-right: 0.4rem !important;
   }
+
 }

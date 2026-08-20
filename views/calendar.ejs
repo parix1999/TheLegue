@@ -4,49 +4,129 @@
 <!-- ----------------------------------------------------------------- -->
 <%- include('partials/header.ejs') %>
 
-    <main>
-        <div class="container pt-5 my-3 my-md-4">
-            <p>
-                Campionato: <%= locals.competition.name %>, stagione: <%= locals.seasoncode.season %>
-            </p>
-            <img src="<%= locals.competition.emblem %>" class="team-logo-small me-3" alt="logo">
+    <main class="bg-light py-4 min-vh-100">
+        <div class="container">
+            <!-- HEADER CAMPIONATO -->
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body p-4">
+                    <div class="row align-items-center g-3">
+                        <div class="col-auto">
+                            <img src="<%= locals.competition.emblem %>" alt="<%= locals.competition.name %> logo"
+                                style="max-height: 80px; width: auto;" class="img-fluid">
+                        </div>
+                        <div class="col">
+                            <h1 class="h3 fw-bold mb-1">
+                                <%= locals.competition.name %>
+                            </h1>
+                            <p class="text-muted mb-2">Stagione <%= locals.seasoncode.season %>
+                            </p>
+                            <div class="d-flex flex-wrap gap-2">
+                                <span
+                                    class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill">
+                                    Partite totali: <%= locals.resultSet.count %>
+                                </span>
+                                <span
+                                    class="badge bg-success-subtle text-success border border-success-subtle rounded-pill">
+                                    Giocate: <%= locals.resultSet.played %>
+                                </span>
+                                <span
+                                    class="badge bg-secondary-subtle text-secondary border border-secondary-subtle rounded-pill">
+                                    <%= locals.resultSet.first %> &rarr; <%= locals.resultSet.last %>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-            <p>
-                partite: <%= locals.resultSet.count %>
-            </p>
-            <p>
-                data inizio campionato: <%= locals.resultSet.first %>
-            </p>
-            <p>
-                data fine campionato: <%= locals.resultSet.last %>
-            </p>
-            <p>
-                partite giocate: <%= locals.resultSet.played %>
-            </p>
+            <!-- LISTA GIORNATE -->
+            <% Object.keys(locals.groupedMatches).forEach(matchday=> { %>
+                <div class="mb-5">
 
-            <table>
-                <thead>
-                    <tr>
-                        <th>hometeam</th>
-                        <th>awayteam</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% locals.matches.forEach(match=> { %>
-                        <tr>
-                            <td>
-                                <%= match.homeTeam.shortName %>
-                            </td>
-                            <td>vs</td>
-                            <td>
-                                <%= match.awayTeam.shortName %>
-                            </td>
-                        </tr>
+                    <!-- HEADER GIORNATA -->
+                    <div class="d-flex align-items-center mb-3">
+                        <h2 class="h4 fw-bold mb-0 me-3">Giornata <%= matchday %>
+                        </h2>
+                        <hr class="flex-grow-1 my-0 text-secondary opacity-25">
+                    </div>
 
-                        <% }); %>
-                </tbody>
-            </table>
+                    <!-- CARDS PARTITE DELLA GIORNATA -->
+                    <div class="row g-3">
+                        <% locals.groupedMatches[matchday].forEach(match=> { %>
+                            <div class="col-12 col-md-6 col-xl-4">
+                                <div class="card border-0 shadow-sm h-100">
+                                    <div class="card-body d-flex flex-column justify-content-between p-3">
+
+                                        <!-- DATA E ORA (ORARIO ITALIANO) -->
+                                        <div class="text-center text-muted small fw-medium mb-2 pb-2 border-bottom">
+                                            <i class="bi bi-calendar-event me-1"></i>
+                                            <%= match.formattedDate %>
+                                        </div>
+
+                                        <!-- SQUADRE E PUNTEGGIO -->
+                                        <div class="row align-items-center text-center my-2">
+                                            <!-- Squadra Casa -->
+                                            <div class="col-4 d-flex flex-column align-items-center">
+                                                <img src="<%= match.homeTeam.crest %>"
+                                                    alt="<%= match.homeTeam.shortName %>"
+                                                    style="height: 45px; width: 45px; object-fit: contain;"
+                                                    class="mb-2">
+                                                <span class="fw-semibold small text-truncate w-100"
+                                                    title="<%= match.homeTeam.shortName %>">
+                                                    <%= match.homeTeam.shortName %>
+                                                </span>
+                                            </div>
+
+                                            <!-- Risultato -->
+                                            <div class="col-4 px-0">
+                                                <% if (match.score && match.score.fullTime && match.score.fullTime.home
+                                                    !==null) { %>
+                                                    <div class="fs-4 fw-bold bg-light py-1 px-2 rounded border">
+                                                        <%= match.score.fullTime.home %> - <%= match.score.fullTime.away %>
+                                                    </div>
+                                                    <% } else { %>
+                                                        <div class="badge bg-light text-dark border fs-6">VS</div>
+                                                    <% } %>
+                                            </div>
+
+                                            <!-- Squadra Ospite -->
+                                            <div class="col-4 d-flex flex-column align-items-center">
+                                                <img src="<%= match.awayTeam.crest %>"
+                                                    alt="<%= match.awayTeam.shortName %>"
+                                                    style="height: 45px; width: 45px; object-fit: contain;"
+                                                    class="mb-2">
+                                                <span class="fw-semibold small text-truncate w-100"
+                                                    title="<%= match.awayTeam.shortName %>">
+                                                    <%= match.awayTeam.shortName %>
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <!-- BADGE ESITO -->
+                                        <div class="text-center mt-2 pt-2 border-top">
+                                            <% if (match.score.winner==='HOME_TEAM' ) { %>
+                                                <span class="badge bg-success-subtle text-success fw-normal">Vittoria
+                                                    Casa</span>
+                                                <% } else if (match.score.winner==='AWAY_TEAM' ) { %>
+                                                    <span class="badge bg-success-subtle text-success fw-normal">Vittoria Ospiti</span>
+                                                <% } else if (match.score.winner==='DRAW' ) { %>
+                                                    <span class="badge bg-warning-subtle text-warning-emphasis fw-normal">Pareggio</span>
+                                                <% } else { %>
+                                                    <span class="badge bg-secondary-subtle text-secondary fw-normal">
+                                                    Da Giocare</span>
+                                            <% } %>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <% }); %>
+                    </div>
+
+                </div>
+                <% }); %>
+
         </div>
     </main>
 
-<%- include('partials/footer.ejs') %>
+    <%- include('partials/footer.ejs') %>

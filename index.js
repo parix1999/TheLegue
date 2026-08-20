@@ -186,6 +186,8 @@ app.all("/statdata", async (req, res) => {
     res.status(500).send("Errore nel recupero statistiche squadra");
   }
 });
+
+// TO DOOO 
 app.post("/teams", (req, res) => {
   console.log(req.body);
   res.render("teams.ejs");
@@ -222,8 +224,42 @@ app.all("/calendar", async (req, res) => {
 
   try {
     const response = await axios.get(options.url, options.config);
+    const rawMatches = response.data.matches || [];
+
+    // Raggruppamento per giornata (matchday) e formattazione orario italiano
+    const groupedMatches = rawMatches.reduce((acc, match) => {
+      // Se matchday manca o è null, usa un valore di fallback
+      const day = match.matchday || 1;
+
+      if (!acc[day]) {
+        acc[day] = [];
+      }
+
+      // Converti e formatta la data in orario italiano
+      let formattedDate = "";
+      if (match.utcDate) {
+        const dateObj = new Date(match.utcDate);
+        formattedDate = dateObj.toLocaleString("it-IT", {
+          timeZone: "Europe/Rome",
+          weekday: "short",
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+        });
+      }
+
+      acc[day].push({
+        ...match,
+        formattedDate, // Aggiungiamo la stringa formattata
+      });
+
+      return acc;
+    }, {});
+
     res.render("calendar.ejs", {
-      matches: response.data.matches,
+      groupedMatches: groupedMatches, // Passiamo l'oggetto raggruppato
       competition: response.data.competition,
       resultSet: response.data.resultSet,
       seasoncode: response.data.filters,
